@@ -20,8 +20,8 @@ export default function Sidebar() {
     },
 
     {
-      title: "Bino / Qavat / Xona",
-      link: "/buildings",
+      title: "Hotel / Bino / Qavat / Xona",
+      link: "/properties",
       icon: <Building2 size={20} />,
     },
 
