@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../api/auth.api";
+import { useAuthStore } from "../../../app/store/auth-store";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  const login = useAuthStore((state) => state.login);
+  const isLoading = useAuthStore((state) => state.isLoading);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      const { data } = await loginUser(username, password);
-      localStorage.setItem("token", data.access_token);
+      await login(username, password);
       navigate("/");
     } catch (err) {
       let message = "Login xato! Username yoki parol noto‘g‘ri.";
@@ -27,8 +27,6 @@ const LoginForm = () => {
       }
 
       alert(message);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -71,10 +69,10 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        disabled={loading}
+        disabled={isLoading}
         className="w-full bg-blue-600 text-white py-2 rounded-md cursor-pointer"
       >
-        {loading ? "Yuklanmoqda..." : "Davom etish"}
+        {isLoading ? "Yuklanmoqda..." : "Davom etish"}
       </button>
     </form>
   );

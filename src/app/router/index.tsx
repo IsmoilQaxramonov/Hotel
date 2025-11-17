@@ -13,45 +13,50 @@ import LogsPage from "../../modules/logs/pages/LogsPage";
 import SettingsPage from "../../modules/settings/pages/SettingsPage";
 import NotFound from "../../pages/NotFound";
 import App from "../App";
+import ProtectedRoute from "./protected-route";
 
 export const router = createBrowserRouter([
-  // LOGIN
+  // PUBLIC ROUTE
   {
     path: "/login",
     element: <LoginPage />,
   },
 
-  // APP LAYOUT
+  // PROTECTED ROUTES
   {
-    path: "/",
-    element: <App />,
+    element: <ProtectedRoute />,
     children: [
-      // Dashboard
-      { index: true, element: <DashboardPage /> },
+      {
+        path: "/",
+        element: <App />,
+        children: [
+          { index: true, element: <DashboardPage /> },
 
-      // Hotels
-      { path: "buildings", element: <BuildingsPage /> },
-      { path: "floors", element: <FloorsPage /> },
-      { path: "rooms", element: <RoomsPage /> },
+          // Hotels
+          { path: "buildings", element: <BuildingsPage /> },
+          { path: "floors", element: <FloorsPage /> },
+          { path: "rooms", element: <RoomsPage /> },
 
-      // Booking
-      { path: "bookings", element: <BookingListPage /> },
-      { path: "bookings/:id", element: <BookingDetailsPage /> },
+          // Booking
+          { path: "bookings", element: <BookingListPage /> },
+          { path: "bookings/:id", element: <BookingDetailsPage /> },
 
-      // Guests
-      { path: "guests", element: <GuestsPage /> },
+          // Guests
+          { path: "guests", element: <GuestsPage /> },
 
-      // Payments
-      { path: "payments", element: <PaymentsPage /> },
+          // Payments
+          { path: "payments", element: <PaymentsPage /> },
 
-      // Staff
-      { path: "staff", element: <StaffManagementPage /> },
+          // Staff
+          { path: "staff", element: <StaffManagementPage /> },
 
-      // Logs
-      { path: "logs", element: <LogsPage /> },
+          // Logs
+          { path: "logs", element: <LogsPage /> },
 
-      // Settings
-      { path: "settings", element: <SettingsPage /> },
+          // Settings
+          { path: "settings", element: <SettingsPage /> },
+        ],
+      },
     ],
   },
 
