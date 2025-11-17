@@ -1,19 +1,11 @@
-import { StrictMode } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import Sidebar from "./components/layout";
-import { BrowserRouter } from "react-router-dom";
-import Dashboard from "./home";
+import router from "./app/router";
+import { RouterProvider } from "react-router-dom";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <div className="flex">
-        <Sidebar />
-        <main className="flex-1 p-5">
-          <Dashboard />
-        </main>
-      </div>
-    </BrowserRouter>
-  </StrictMode>
+  <React.StrictMode>
+      <RouterProvider router={router} />
+  </React.StrictMode>
 );

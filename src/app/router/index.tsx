@@ -1,0 +1,65 @@
+import { createBrowserRouter } from "react-router-dom";
+import LoginPage from "../../modules/auth/pages/LoginPage";
+import DashboardPage from "../../modules/reports/pages/DashboardPage";
+import BuildingsPage from "../../modules/hotels/pages/BuildingsPage";
+import FloorsPage from "../../modules/hotels/pages/FloorsPage";
+import RoomsPage from "../../modules/hotels/pages/RoomsPage";
+import BookingListPage from "../../modules/booking/pages/BookingListPage";
+import BookingDetailsPage from "../../modules/booking/pages/BookingDetailsPage";
+import GuestsPage from "../../modules/guests/pages/GuestsPage";
+import PaymentsPage from "../../modules/payments/pages/PaymentsPage";
+import StaffManagementPage from "../../modules/staff/pages/StaffManagementPage";
+import LogsPage from "../../modules/logs/pages/LogsPage";
+import SettingsPage from "../../modules/settings/pages/SettingsPage";
+import NotFound from "../../pages/NotFound";
+import App from "../App";
+
+export const router = createBrowserRouter([
+  // LOGIN
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+
+  // APP LAYOUT
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      // Dashboard
+      { index: true, element: <DashboardPage /> },
+
+      // Hotels
+      { path: "buildings", element: <BuildingsPage /> },
+      { path: "floors", element: <FloorsPage /> },
+      { path: "rooms", element: <RoomsPage /> },
+
+      // Booking
+      { path: "bookings", element: <BookingListPage /> },
+      { path: "bookings/:id", element: <BookingDetailsPage /> },
+
+      // Guests
+      { path: "guests", element: <GuestsPage /> },
+
+      // Payments
+      { path: "payments", element: <PaymentsPage /> },
+
+      // Staff
+      { path: "staff", element: <StaffManagementPage /> },
+
+      // Logs
+      { path: "logs", element: <LogsPage /> },
+
+      // Settings
+      { path: "settings", element: <SettingsPage /> },
+    ],
+  },
+
+  // NOT FOUND
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+]);
+
+export default router;
