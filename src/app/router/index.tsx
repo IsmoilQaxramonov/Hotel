@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "../../modules/auth/pages/LoginPage";
 import DashboardPage from "../../modules/reports/pages/DashboardPage";
-import BuildingsPage from "../../modules/hotels/pages/BuildingsPage";
 import FloorsPage from "../../modules/hotels/pages/FloorsPage";
 import RoomsPage from "../../modules/hotels/pages/RoomsPage";
 import BookingListPage from "../../modules/booking/pages/BookingListPage";
@@ -13,6 +12,9 @@ import LogsPage from "../../modules/logs/pages/LogsPage";
 import SettingsPage from "../../modules/settings/pages/SettingsPage";
 import NotFound from "../../pages/NotFound";
 import App from "../App";
+import PropertiesLayout from "../../modules/hotels/layout";
+import HotelsPage from "../../modules/hotels/pages/HotelsPage";
+import BuildingsPage from "../../modules/hotels/pages/BuildingsPage";
 
 export const router = createBrowserRouter([
   // LOGIN
@@ -30,9 +32,16 @@ export const router = createBrowserRouter([
       { index: true, element: <DashboardPage /> },
 
       // Hotels
-      { path: "buildings", element: <BuildingsPage /> },
-      { path: "floors", element: <FloorsPage /> },
-      { path: "rooms", element: <RoomsPage /> },
+      {
+        path: "properties",
+        element: <PropertiesLayout />,
+        children: [
+          { path: "hotels", element: <HotelsPage /> },
+          { path: "buildings", element: <BuildingsPage /> },
+          { path: "floors", element: <FloorsPage /> },
+          { path: "rooms", element: <RoomsPage /> },
+        ],
+      },
 
       // Booking
       { path: "bookings", element: <BookingListPage /> },
