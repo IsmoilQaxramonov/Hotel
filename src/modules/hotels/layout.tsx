@@ -1,36 +1,56 @@
-// PropertiesLayout.tsx
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Outlet, NavLink } from "react-router-dom";
+import { useAuthStore } from "../../app/store/auth-store";
 
 export default function PropertiesLayout() {
-  const linkStyle = ({ isActive }: { isActive: boolean }) => ({
-    padding: "10px 18px",
-    borderRadius: "6px",
-    textDecoration: "none",
-    background: isActive ? "#4f46e5" : "#f5f5f5",
-    color: isActive ? "#fff" : "#000",
-    fontWeight: 500,
-  });
+  const linkStyle = ({ isActive }: { isActive: boolean }) =>
+    isActive
+      ? "px-4 py-2 rounded-lg bg-blue-600 text-white font-medium shadow-sm"
+      : "px-4 py-2 rounded-lg bg-white text-gray-700 font-medium border border-gray-300 hover:bg-gray-100 transition";
+
+  const clickRef = useRef<HTMLElement | null>(null);
+  const user = useAuthStore((state) => state.user);
+  const userRole = user?.role_id;
+
+  // Avtomatik birinchi tabni tanlash
+  useEffect(() => {
+    if (clickRef.current) {
+      clickRef.current.click();
+    }
+  }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="p-5">
       {/* Top navigation */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
-        <NavLink to="hotels" style={linkStyle}>
-          Hotels
-        </NavLink>
-        <NavLink to="buildings" style={linkStyle}>
-          Buildings
-        </NavLink>
-        <NavLink to="floors" style={linkStyle}>
-          Floors
-        </NavLink>
-        <NavLink to="rooms" style={linkStyle}>
-          Rooms
-        </NavLink>
+      <div className="flex gap-3 mb-6">
+        {/* ADMIN → faqat Hotels */}
+        {(userRole === 1 || userRole === 2) && (
+          <NavLink to="hotels" ref={clickRef} className={linkStyle}>
+            Hotels
+          </NavLink>
+        )}
+
+        {/* OWNER → Buildings va Floors */}
+        {(userRole === 2 || userRole === 3) && (
+          <>
+            <NavLink to="buildings" ref={clickRef} className={linkStyle}>
+              Buildings
+            </NavLink>
+            <NavLink to="floors" className={linkStyle}>
+              Floors
+            </NavLink>
+          </>
+        )}
+
+        {/* RECEPTION → faqat Rooms */}
+        {(userRole === 2 || userRole === 3) && (
+          <NavLink to="rooms" ref={clickRef} className={linkStyle}>
+            Rooms
+          </NavLink>
+        )}
       </div>
 
-      {/* Nested content */}
+      {/* Nested Routes Content */}
       <Outlet />
     </div>
   );
