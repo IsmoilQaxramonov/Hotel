@@ -63,7 +63,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 h-[calc(100vh-64px)] bg-white border-r border-gray-400 px-4 py-6">
+    <aside className="w-64  bg-white   border-gray-400 p-4 overflow-y-auto">
       <h1 className="text-xl font-semibold text-gray-800 mb-8 px-2">
         Hotel Admin
       </h1>
