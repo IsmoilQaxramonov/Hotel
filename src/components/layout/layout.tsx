@@ -1,69 +1,27 @@
 import { NavLink } from "react-router-dom";
-import {
-  Building2,
-  Users,
-  FileBarChart,
-  UserCircle,
-  CreditCard,
-  Settings,
-  BookOpen,
-  ScrollText,
-} from "lucide-react";
+import { NAVIGATION } from "./state-sidebar";
 
-// Sidebar layout for Hotel Admin Panel
-export default function Sidebar() {
-  const menu = [
-    {
-      title: "Dashboard",
-      link: "/",
-      icon: <FileBarChart size={20} />,
-    },
+interface SidebarProps {
+  isAdmin: boolean;
+  isOwner: boolean;
+  isReception: boolean;
+}
 
-    {
-      title: "Hotel / Bino / Qavat / Xona",
-      link: "/properties",
-      icon: <Building2 size={20} />,
-    },
+export default function Sidebar({
+  isAdmin,
+  isOwner,
+  isReception,
+}: SidebarProps) {
+  let key: "admin" | "owner" | "reception" = "reception";
 
-    {
-      title: "Bronlar",
-      link: "/bookings",
-      icon: <BookOpen size={20} />,
-    },
+  if (isAdmin) key = "admin";
+  else if (isOwner) key = "owner";
+  else if (isReception) key = "reception";
 
-    {
-      title: "Mehmonlar",
-      link: "/guests",
-      icon: <UserCircle size={20} />,
-    },
-
-    {
-      title: "To'lovlar",
-      link: "/payments",
-      icon: <CreditCard size={20} />,
-    },
-
-    {
-      title: "Xodimlar",
-      link: "/staff",
-      icon: <Users size={20} />,
-    },
-
-    {
-      title: "Loglar",
-      link: "/logs",
-      icon: <ScrollText size={20} />,
-    },
-
-    {
-      title: "Sozlamalar",
-      link: "/settings",
-      icon: <Settings size={20} />,
-    },
-  ];
+  const menu = NAVIGATION[key]
 
   return (
-    <aside className="w-64 h-[calc(100vh-64px)] bg-white border-r border-gray-400 px-4 py-6">
+    <aside className="w-64 min-h-screen bg-white border-r border-gray-300 px-4 py-6">
       <h1 className="text-xl font-semibold text-gray-800 mb-8 px-2">
         Hotel Admin
       </h1>

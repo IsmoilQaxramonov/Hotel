@@ -8,7 +8,6 @@ import BookingDetailsPage from "../../modules/booking/pages/BookingDetailsPage";
 import GuestsPage from "../../modules/guests/pages/GuestsPage";
 import PaymentsPage from "../../modules/payments/pages/PaymentsPage";
 import StaffManagementPage from "../../modules/staff/pages/StaffManagementPage";
-import LogsPage from "../../modules/logs/pages/LogsPage";
 import SettingsPage from "../../modules/settings/pages/SettingsPage";
 import NotFound from "../../pages/NotFound";
 import App from "../App";
@@ -16,6 +15,8 @@ import ProtectedRoute from "./protected-route";
 import PropertiesLayout from "../../modules/hotels/layout";
 import HotelsPage from "../../modules/hotels/pages/HotelsPage";
 import BuildingsPage from "../../modules/hotels/pages/BuildingsPage";
+import UsersPage from "../../modules/users/pages/UsersPage";
+import NewOwnerPage from "../../modules/new-owner/pages/NewOwnerPage";
 
 export const router = createBrowserRouter([
   // PUBLIC ROUTE
@@ -33,7 +34,6 @@ export const router = createBrowserRouter([
         element: <App />,
         children: [
           { index: true, element: <DashboardPage /> },
-
       // Hotels
       {
         path: "properties",
@@ -59,8 +59,10 @@ export const router = createBrowserRouter([
           // Staff
           { path: "staff", element: <StaffManagementPage /> },
 
-          // Logs
-          { path: "logs", element: <LogsPage /> },
+          // Users
+          {path: "users", element: <UsersPage/>},
+
+          {path: "new-owner", element: <NewOwnerPage/>},
 
           // Settings
           { path: "settings", element: <SettingsPage /> },

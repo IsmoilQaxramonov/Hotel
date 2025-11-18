@@ -1,17 +1,22 @@
-import { Search, Settings, LogOut } from "lucide-react";
+import { Settings, LogOut, Hotel } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { handleLogout } from "../../modules/auth/api/auth.api";
+import { NAVIGATION } from "./state-sidebar";
 
-export default function Navbar() {
-  const menu = [
-    { title: "Dashboard", link: "/" },
-    { title: "Bino / Qavat / Xona", link: "/properties" },
-    { title: "Bronlar", link: "/bookings" },
-    { title: "Mehmonlar", link: "/guests" },
-    { title: "To'lovlar", link: "/payments" },
-    { title: "Xodimlar", link: "/staff" },
-    { title: "Loglar", link: "/logs" },
-  ];
+interface NavbarProps {
+  isAdmin: boolean;
+  isOwner: boolean;
+  isReception: boolean;
+}
+
+export default function Navbar({ isAdmin, isOwner, isReception }: NavbarProps) {
+  let key: "admin" | "owner" | "reception" = "reception";
+
+  if (isAdmin) key = "admin";
+  else if (isOwner) key = "owner";
+  else if (isReception) key = "reception";
+
+  const menu = NAVIGATION[key];
   const logout = async () => {
     try {
       await handleLogout();
@@ -23,11 +28,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="w-full h-16 bg-white border-b border-gray-400 flex items-center justify-between px-6">
+    <header className="w-full h-16 bg-white border-b border-gray-300 flex items-center justify-between px-6">
       {/* LEFT — LOGO + MENU */}
       <div className="flex items-center gap-8">
         <div className="flex items-center gap-2 text-blue-600 font-bold text-xl">
-          <span className="text-2xl">Hotel</span>
+          <span className="text-2xl">
+            <Hotel size={20} />
+          </span>
           HMS
         </div>
 
@@ -52,15 +59,6 @@ export default function Navbar() {
 
       {/* RIGHT — SEARCH + SETTINGS + LOGOUT + PROFILE */}
       <div className="flex items-center gap-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="Search bookings, guests..."
-            className="border border-gray-400 rounded-xl pl-10 pr-4 py-2 text-sm w-64 bg-white focus:outline-none focus:ring focus:ring-blue-100"
-          />
-        </div>
-
         <NavLink
           to={"settings"}
           className="p-2 border rounded-xl hover:bg-gray-100 border-gray-400 cursor-pointer"

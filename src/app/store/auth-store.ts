@@ -6,6 +6,7 @@ interface AuthState {
   user: LoginResponse | null;
   token: string | null;
   isLoading: boolean;
+  isRestoring: boolean;
 
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
@@ -16,14 +17,13 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   isLoading: false,
+  isRestoring: false,
 
-  // 🔐 LOGIN
   login: async (username, password) => {
     set({ isLoading: true });
     try {
-      const {data} = await loginUser(username, password);
+      const { data } = await loginUser(username, password);
 
-      // faqat token localStoragega
       localStorage.setItem("token", data.access_token);
 
       set({
@@ -37,17 +37,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  // 🔁 AUTO RESTORE
   restore: () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      set({ token });
-      // role_id, token_type, refresh_token maxfiy → localStoragega BEPISAND SAQLANMAYDI
-      // agar userni olish api bo‘lsa shu yerda chaqilsa bo‘ladi.
-    }
-  },
+  set({ isRestoring: true });
 
-  // 🚪 LOGOUT
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    set({ token });
+  }
+
+  setTimeout(() => {
+    set({ isRestoring: false });
+  }, 10);
+},
+
   logout: () => {
     localStorage.removeItem("token");
     set({ user: null, token: null });
